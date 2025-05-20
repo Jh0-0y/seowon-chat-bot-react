@@ -1,4 +1,4 @@
-import LoginForm from "./LoginForm";
+import LoginForm from "../components/login/LoginForm";
 import FormHeader from "../components/FormHeader";
 import styles from "./LoginPage.module.css";
 

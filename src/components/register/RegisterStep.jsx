@@ -5,7 +5,7 @@ import {
   CheckIcon,
   NextStepIcon,
 } from "@/assets/icons/Icons";
-import styles from "./RegisterPage.module.css";
+import styles from "../../pages/RegisterPage.module.css";
 
 const RegisterStep = ({ currentStep }) => {
   const stepIcons = [ListIcon, MailIcon, UserInfoIcon, CheckIcon];

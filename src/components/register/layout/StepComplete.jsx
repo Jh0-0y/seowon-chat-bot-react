@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { CheckIcon } from "@/assets/icons/Icons";
-import styles from "../RegisterPage.module.css";
+import styles from "../../../pages/RegisterPage.module.css";
 
 const StepComplete = () => {
   const navigate = useNavigate();

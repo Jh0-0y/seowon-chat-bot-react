@@ -1,4 +1,4 @@
-import RegisterForm from "./RegisterForm";
+import RegisterForm from "../components/register/RegisterForm";
 import FormHeader from "../components/FormHeader";
 import styles from "./RegisterPage.module.css";
 

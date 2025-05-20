@@ -1,9 +1,9 @@
 import React from "react";
-import UserProfile from "../components/UserProfile";
-import DevServerInput from "../components/DevServerInput";
-import LogoutBtn from "../components/LogoutBtn";
+import UserProfile from "./UserProfile";
+import DevServerInput from "./DevServerInput";
+import LogoutBtn from "./LogoutBtn";
 import { SidebarIcon, SearchIcon, PlusIcon } from "@/assets/icons/Icons";
-import styles from "../Chat.module.css";
+import styles from "../../pages/Chat.module.css";
 
 function SideBar({ isOpen, toggleSidebar, isLoggedIn, user }) {
   return (

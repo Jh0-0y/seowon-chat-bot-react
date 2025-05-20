@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import styles from "../RegisterPage.module.css";
+import styles from "../../../pages/RegisterPage.module.css";
 
 const StepEmail = ({ onNext }) => {
   const [email, setEmail] = useState("");

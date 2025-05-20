@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useLogin } from "@/modules/hooks/useLogin";
 import { useLoginLogic } from "@/modules/hooks/useFormLogic";
 import GoogleLogo from "@/assets/logo/GoogleLogo";
-import styles from "./LoginPage.module.css";
+import styles from "../../pages/LoginPage.module.css";
 
 const LoginForm = () => {
   const {

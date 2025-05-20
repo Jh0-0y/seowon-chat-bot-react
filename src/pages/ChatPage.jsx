@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useChat } from "@/modules/hooks/useChat";
-import Header from "./layouts/Header";
-import ChatContents from "./layouts/ChatContents";
-import Bottom from "./layouts/Bottom";
-import SideBar from "./layouts/SideBar";
+import Header from "../components/chat/layout/ChatHeader";
+import ChatContents from "../components/chat/layout/ChatContents";
+import Bottom from "../components/chat/layout/ChatBottom";
+import SideBar from "../components/sidebar/ChatSideBar";
 import styles from "./Chat.module.css";
 import useIsMobile from "@/modules/hooks/useIsMobile";
 

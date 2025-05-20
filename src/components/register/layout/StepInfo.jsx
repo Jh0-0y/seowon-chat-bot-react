@@ -1,5 +1,5 @@
 import { useRegister } from "@/modules/hooks/useRegister";
-import styles from "../RegisterPage.module.css";
+import styles from "../../../pages/RegisterPage.module.css";
 
 const StepInfo = ({ onNext }) => {
   const {

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ChatPage from '@/pages/main/ChatPage'
-import LoginPage from '@/pages/auth/login/LoginPage'
-import RegisterPage from '@/pages/auth/register/RegisterPage'
+import ChatPage from '@/pages/ChatPage'
+import LoginPage from '@/pages/LoginPage'
+import RegisterPage from '@/pages/RegisterPage'
 
 
 const AppRoutes = () => (

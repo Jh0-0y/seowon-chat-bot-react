@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CheckBoxIcon } from "@/assets/icons/Icons";
-import styles from "../RegisterPage.module.css";
+import styles from "../../../pages/RegisterPage.module.css";
 
 const StepTerms = ({ onNext }) => {
   const [checkedTerms, setCheckedTerms] = useState({

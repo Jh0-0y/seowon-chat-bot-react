@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { SendIcon } from "@/assets/icons/Icons";
-import styles from "../Chat.module.css";
+import styles from "../../../pages/Chat.module.css";
 
 function Bottom({ onSend }) {
   const [input, setInput] = useState("");
