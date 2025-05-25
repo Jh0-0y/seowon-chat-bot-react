@@ -1,5 +1,5 @@
 import ChatBubble from "../ui/ChatBubble";
-import styles from "../../../pages/Chat.module.css";
+import styles from "./ChatContents.module.css";
 
 const ChatContents = ({ chatList, chatEndRef }) => {
   return (

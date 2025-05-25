@@ -1,6 +1,6 @@
 import React from "react";
 import {SidebarIcon, HelpIcon} from "@/assets/icons/Icons";
-import styles from "../../../pages/Chat.module.css";
+import styles from "./ChatHeader.module.css";
 
 function Header({ toggleSidebar, isSidebarOpen }) {
   return (

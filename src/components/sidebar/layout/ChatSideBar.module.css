@@ -1,0 +1,86 @@
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 224px;
+  height: 100vh;
+  background: #f9fafb;
+  box-shadow: var(--box-shadow-primary);
+  transform: translateX(-100%);
+  z-index: 1000;
+}
+
+.sidebar-overlay.open {
+  transform: translateX(0);
+  animation: slideInSidebar 0.3s ease-out;
+}
+
+/* ✅ 모바일 대응 */
+@media (max-width: 768px) {
+  .sidebar-overlay {
+    width: 70%; /* 모바일에서 넓게 */
+    z-index: 1200;
+  }
+
+  .sidebar-overlay.open + .sidebar-dimmed {
+    display: block;
+  }
+}
+
+.sidebar-dimmed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  animation: fadeInDimmed 0.3s ease-out forwards;
+}
+
+@media (min-width: 768px) {
+  .sidebar-dimmed {
+    display: none;
+  }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+}
+
+.sidebar-controls {
+  display: flex;
+}
+
+.sidebar-content {
+  padding: 10px 10px;
+}
+
+.sidebar-fotter {
+  padding: 10px 10px;
+}
+
+@keyframes slideInSidebar {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInDimmed {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

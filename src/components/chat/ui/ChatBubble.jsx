@@ -1,8 +1,10 @@
 import "./ChatBubble.css";
+import spinner from "@/assets/icons/spinner.png";
 
-const ChatBubble = ({ type, text, spinner }) => {
+const ChatBubble = ({ type, text, spinner: customSpinner }) => {
   const isUser = type === "user";
-  const isBot = type === "bot" || type === "loading";
+  const isBot = type === "bot";
+  const isLoading = type === "loading";
 
   if (isUser) {
     return (
@@ -16,7 +18,7 @@ const ChatBubble = ({ type, text, spinner }) => {
     );
   }
 
-  if (isBot) {
+  if (isBot || isLoading) {
     return (
       <div className="bot-wrap">
         <div className="bot-profile">
@@ -29,8 +31,13 @@ const ChatBubble = ({ type, text, spinner }) => {
         </div>
         <div className="bot-bubble">
           <div className="bot-chating">
-            {spinner && (
-              <img src={spinner} alt="로딩중" className="spinner" />
+            {(isLoading || customSpinner) && (
+              <img
+                src={spinner}
+                alt="로딩중"
+                className="spinner"
+                style={{ width: 20, height: 20, marginRight: 8 }}
+              />
             )}
             <span className="bot-text">{text}</span>
           </div>

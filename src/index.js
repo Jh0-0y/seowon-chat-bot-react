@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
-import store from '@/modules/store/store';
+import store from '@/modules/shared/store';
 import AppRouter from '@/routes/AppRouter';
 import '@/global.css';
 

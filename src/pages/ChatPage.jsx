@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { useChat } from "@/modules/hooks/useChat";
+import { useState } from "react";
+import { useChat } from "@/modules/chat/chatHooks";
 import Header from "../components/chat/layout/ChatHeader";
 import ChatContents from "../components/chat/layout/ChatContents";
 import Bottom from "../components/chat/layout/ChatBottom";
-import SideBar from "../components/sidebar/ChatSideBar";
-import styles from "./Chat.module.css";
-import useIsMobile from "@/modules/hooks/useIsMobile";
+import SideBar from "../components/sidebar/layout/ChatSideBar";
+import styles from "./ChatPage.module.css";
+import { useIsMobile } from "@/modules/chat/chatHooks";
 
 function ChatPage() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const { chatList, chatEndRef, handleSend } = useChat();
+  const { chatList, chatEndRef, handleSendMessage, loading} = useChat();
   const isMobile = useIsMobile();
 
   const token = localStorage.getItem("token");
@@ -34,12 +34,9 @@ function ChatPage() {
       />
 
       {isMobile && isSidebarOpen && (
-        <div
-          className={styles["sidebar-dimmed"]}
-          onClick={toggleSidebar}
-        />
+        <div className={styles["sidebar-dimmed"]} onClick={toggleSidebar} />
       )}
-      
+
       <div
         className={`${styles["chat-wrap"]} ${
           isSidebarOpen && !isMobile ? styles["shifted"] : ""
@@ -47,7 +44,7 @@ function ChatPage() {
       >
         <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
         <ChatContents chatList={chatList} chatEndRef={chatEndRef} />
-        <Bottom onSend={handleSend} />
+        <Bottom onSend={handleSendMessage} loading={loading} />
       </div>
     </div>
   );
