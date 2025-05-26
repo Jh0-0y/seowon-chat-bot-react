@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { SendIcon } from "@/assets/icons/Icons";
 import styles from "./ChatBottom.module.css";
-import { sendTestAjax } from "@/modules/chat/ajaxTest"; // 실제 위치에 맞게 수정
 
 function Bottom({ onSend, loading}) {
   const [input, setInput] = useState("");
@@ -79,7 +78,6 @@ function Bottom({ onSend, loading}) {
       </div>
       <div className={styles["inp-warning"]}>
         <p>S-Goon은 테스트 단계입니다.</p>
-        <button onClick={sendTestAjax}>AJAX 테스트 전송</button>
       </div>
     </div>
   );

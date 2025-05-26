@@ -11,7 +11,7 @@ const ChatBubble = ({ type, text, spinner: customSpinner }) => {
       <div className="user-wrap">
         <div className="user-bubble">
           <div className="user-chating">
-            <span className="user-text">{text}</span>
+            <span className="user-text">{typeof text === "object" ? text.message : text}</span>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@ const ChatBubble = ({ type, text, spinner: customSpinner }) => {
                 style={{ width: 20, height: 20, marginRight: 8 }}
               />
             )}
-            <span className="bot-text">{text}</span>
+            <span className="bot-text">{text?.message || text}</span>
           </div>
         </div>
       </div>
