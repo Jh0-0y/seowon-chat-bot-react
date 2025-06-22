@@ -1,62 +1,141 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { chatApi } from "@/modules/chat/chatApi";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { chatApi, chatRoomListApi, chatHistoryApi } from "@/modules/chat/chatApi";
+import { saveChatState } from "@/modules/shared/utils/localStorage";
 
-// 비동기 액션 생성: 서버와의 통신을 처리하는 thunk
-// createAsyncThunk는 비동기 작업을 처리하기 위한 Redux Toolkit의 유틸리티
+export const fetchRoomList = createAsyncThunk("chat/fetchRoomList", async () => {
+  const rooms = await chatRoomListApi();
+  return rooms || [];
+});
+
+export const fetchChatHistory = createAsyncThunk(
+  "chat/fetchChatHistory",
+  async (sessionId) => {
+    const history = await chatHistoryApi(sessionId);
+    return { sessionId, history };
+  }
+);
+
 export const sendMessage = createAsyncThunk(
-  "chat/sendMessage", // 액션 타입
-  async (message, { rejectWithValue }) => {
+  "chat/sendMessage",
+  async (message, { getState, rejectWithValue }) => {
     try {
-      // chatApi를 통해 서버에 메시지 전송
-      const response = await chatApi(message);
-      // 성공 시 서버 응답 반환
+      const state = getState();
+      const sessionId = state.chat.selectedRoomId;
+      const response = await chatApi({ message, sessionId });
       return { response };
     } catch (error) {
-      // 실패 시 에러 메시지와 함께 reject
       return rejectWithValue("메시지 전송 실패");
     }
   }
 );
 
-// 채팅 관련 상태를 관리하는 Redux slice
+const initialState = {
+  selectedRoomId: null,
+  rooms: [],
+  messages: {},
+  loading: false,
+  error: null,
+};
+
 const chatSlice = createSlice({
-  name: "chat", // slice의 이름
-  // 초기 상태 정의
-  initialState: {
-    messages: [], // 채팅 메시지 배열
-    loading: false, // 로딩 상태
-    error: null, // 에러 상태
-  },
-  // 동기 액션 리듀서들
+  name: "chat",
+  initialState,
   reducers: {
-    // 사용자 메시지를 즉시 UI에 추가하는 리듀서
+    selectRoom: (state, action) => {
+      const roomId = action.payload;
+      state.selectedRoomId = roomId;
+      if (!state.messages[roomId]) {
+        state.messages[roomId] = [
+          { type: "bot", text: `안녕하세요! [${state.rooms.find(r => r.id === roomId)?.title || "NewChat"}] 입니다.` },
+        ];
+      }
+    },
     addUserMessage: (state, action) => {
-      state.messages.push({ type: "user", text: action.payload });
-    }
+      const roomId = state.selectedRoomId;
+      if (roomId) {
+        if (!state.messages[roomId]) {
+          state.messages[roomId] = [];
+        }
+        state.messages[roomId].push({ type: "user", text: action.payload });
+        saveChatState(current(state));
+      }
+    },
+    addRoom: (state, action) => {
+      const { id, title } = action.payload;
+      if (!state.rooms.find((room) => room.id === id)) {
+        state.rooms.push({ id, title });
+      }
+      if (!state.messages[id]) {
+        state.messages[id] = [
+          { type: "bot", text: `안녕하세요! [${title || "NewChat"}] 입니다.` },
+        ];
+      }
+      state.selectedRoomId = id;
+      saveChatState(current(state));
+    },
+    resetChat: (state) => {
+      Object.assign(state, initialState);
+      saveChatState(initialState);
+    },
   },
-  // 비동기 액션의 상태에 따른 리듀서들
   extraReducers: (builder) => {
     builder
-      // 메시지 전송 시작 시
       .addCase(sendMessage.pending, (state) => {
-        state.loading = true; // 로딩 상태 활성화
-        state.error = null; // 에러 상태 초기화
+        state.loading = true;
+        state.error = null;
       })
-      // 메시지 전송 성공 시
       .addCase(sendMessage.fulfilled, (state, action) => {
-        state.loading = false; // 로딩 상태 비활성화
-        // 봇의 응답 메시지를 메시지 배열에 추가
-        state.messages.push({ type: "bot", text: action.payload.response });
+        state.loading = false;
+        const roomId = state.selectedRoomId;
+        if (roomId) {
+          if (!state.messages[roomId]) {
+            state.messages[roomId] = [];
+          }
+          state.messages[roomId].push({
+            type: "bot",
+            text: action.payload.response,
+          });
+          saveChatState(current(state));
+        }
       })
-      // 메시지 전송 실패 시
       .addCase(sendMessage.rejected, (state, action) => {
-        state.loading = false; // 로딩 상태 비활성화
-        state.error = action.payload; // 에러 메시지 저장
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(fetchRoomList.fulfilled, (state, action) => {
+        const fetchedRooms = action.payload || [];
+
+        const newRooms = [];
+
+        fetchedRooms.forEach((room) => {
+          const id = String(room.session_id);
+          const title = room.title;
+
+          newRooms.push({ id, title, endedAt: room.ended_at });
+
+          if (!state.messages[id]) {
+            state.messages[id] = [
+              { type: "bot", text: `안녕하세요! [${title}] 입니다.` },
+            ];
+          }
+        });
+
+        state.rooms = newRooms;
+        saveChatState(current(state));
+      })
+      .addCase(fetchChatHistory.fulfilled, (state, action) => {
+        const { sessionId, history } = action.payload;
+        state.messages[sessionId] = [];
+
+        history.forEach((item) => {
+          state.messages[sessionId].push({ type: "user", text: item.user_message });
+          state.messages[sessionId].push({ type: "bot", text: item.bot_response });
+        });
+
+        saveChatState(current(state));
       });
   },
 });
 
-// 액션 생성자 내보내기
-export const { addUserMessage } = chatSlice.actions;
-// 리듀서 내보내기
+export const { selectRoom, addUserMessage, addRoom, resetChat } = chatSlice.actions;
 export default chatSlice.reducer;

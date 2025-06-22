@@ -31,6 +31,7 @@ const StepInfo = ({ onNext }) => {
 
       <section className={styles["register-content"]}>
         {[ 
+          { id: "profile", label: "프로필", type: "text", placeholder: "" },
           { id: "email", label: "이메일", type: "email", placeholder: "email@email.com" },
           { id: "user_id", label: "아이디", type: "text", placeholder: "아이디를 입력해주세요" },
           { id: "user_password", label: "비밀번호", type: "password", placeholder: "비밀번호" },

@@ -5,13 +5,6 @@ import store from "@/modules/shared/store";
 import AppRouter from "@/routes/AppRouter";
 import "@/global.css";
 
-if (process.env.NODE_ENV === "development") {
-  (async () => {
-    const { worker } = await import("./mocks/browser");
-    await worker.start();
-  })();
-}
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(

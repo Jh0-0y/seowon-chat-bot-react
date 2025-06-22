@@ -65,6 +65,26 @@
   padding: 10px 10px;
 }
 
+.roomList {
+  list-style: none;
+  padding: 0;
+}
+
+.roomItem {
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.roomItem:hover {
+  background-color: #e0e0e0;
+}
+
+.roomItem.active {
+  background-color: #d0d0ff;
+  font-weight: bold;
+}
+
 @keyframes slideInSidebar {
   0% {
     transform: translateX(-100%);

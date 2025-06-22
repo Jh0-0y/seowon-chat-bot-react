@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { registerApi } from "../authApi";
 
 export const registerUser = createAsyncThunk(
-  "register/registerUser",
+  "auth/register",
   async (userData, thunkAPI) => {
     try {
       console.log("[회원가입 요청 전송] 데이터:", userData);

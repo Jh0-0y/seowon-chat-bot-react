@@ -6,9 +6,9 @@ const ChatContents = ({ chatList, chatEndRef }) => {
     <div className={styles["chat-container"]}>
       <div className={styles["chat-inner"]}>
         <div className={`${styles["chat-content"]} u-w-70`}>
-          {chatList.map((msg) => (
+          {chatList.map((msg, index) => (
             <ChatBubble
-              key={msg.id}
+              key={index} // index를 임시 key로 사용
               type={msg.type}
               text={msg.text}
               spinner={

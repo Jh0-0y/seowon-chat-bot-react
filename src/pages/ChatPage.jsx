@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useChat } from "@/modules/chat/chatHooks";
-import Header from "../components/chat/layout/ChatHeader";
-import ChatContents from "../components/chat/layout/ChatContents";
-import Bottom from "../components/chat/layout/ChatBottom";
-import SideBar from "../components/sidebar/layout/ChatSideBar";
-import styles from "./ChatPage.module.css";
 import { useIsMobile } from "@/modules/chat/chatHooks";
+import Header from "@/components/chat/layout/ChatHeader";
+import ChatContents from "@/components/chat/layout/ChatContents";
+import Bottom from "@/components/chat/layout/ChatBottom";
+import SideBar from "@/components/chat/layout/ChatSideBar";
+import styles from "./ChatPage.module.css";
 
 function ChatPage() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
