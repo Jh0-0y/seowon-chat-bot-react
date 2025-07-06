@@ -1,7 +1,7 @@
 import axios from 'axios'
-
+//'http://123.111.17.25:8080/api'
 const axiosInstance = axios.create({
-  baseURL: 'http://123.111.17.25:8080/api',
+  baseURL: 'http://118.44.206.66:8080/api',
   withCredentials: true, //쿠키 인증 관련 설정임(true로 해줘야 제대로 전송)
   headers: {
     'Content-Type': 'application/json', //요청 시 데이터 타입(json)

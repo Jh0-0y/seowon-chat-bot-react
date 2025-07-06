@@ -1,6 +1,6 @@
 // 로그인 폼 유효성 검사 함수
-export const validateLogin = ({ user_id, user_password }) => {
-  if (!user_id) {
+export const validateLogin = ({ email, user_password }) => {
+  if (!email) {
     return {
       ok: false,
       message: "아이디를 입력해 주세요.",

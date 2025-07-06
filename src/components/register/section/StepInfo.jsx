@@ -30,14 +30,37 @@ const StepInfo = ({ onNext }) => {
       </header>
 
       <section className={styles["register-content"]}>
-        {[ 
-          { id: "profile", label: "프로필", type: "text", placeholder: "" },
-          { id: "email", label: "이메일", type: "email", placeholder: "email@email.com" },
-          { id: "user_id", label: "아이디", type: "text", placeholder: "아이디를 입력해주세요" },
-          { id: "user_password", label: "비밀번호", type: "password", placeholder: "비밀번호" },
-          { id: "passwordCheck", label: "비밀번호 확인", type: "password", placeholder: "비밀번호 확인" },
-          { id: "user_name", label: "사용자 이름", type: "text", placeholder: "이름을 입력해주세요" },
-          { id: "phone_number", label: "휴대전화", type: "tel", placeholder: "010-1234-5678" },
+        {[
+          {
+            id: "profile_img",
+            label: "프로필",
+            type: "text",
+            placeholder: "",
+          },
+          {
+            id: "user_name",
+            label: "사용자 이름",
+            type: "text",
+            placeholder: "이름을 입력해주세요",
+          },
+          {
+            id: "email",
+            label: "이메일",
+            type: "email",
+            placeholder: "email@email.com",
+          },
+          {
+            id: "user_password",
+            label: "비밀번호",
+            type: "password",
+            placeholder: "비밀번호",
+          },
+          {
+            id: "passwordCheck",
+            label: "비밀번호 확인",
+            type: "password",
+            placeholder: "비밀번호 확인",
+          },
         ].map(({ id, label, type, placeholder }) => (
           <div key={id} className={styles["form-group"]}>
             <label htmlFor={id} className={styles["form-label"]}>
@@ -48,7 +71,9 @@ const StepInfo = ({ onNext }) => {
                 <input
                   id={id}
                   type={type}
-                  value={id === "passwordCheck" ? passwordCheck : formData[id] || ""}
+                  value={
+                    id === "passwordCheck" ? passwordCheck : formData[id] || ""
+                  }
                   onChange={
                     id === "passwordCheck"
                       ? (e) => setPasswordCheck(e.target.value)

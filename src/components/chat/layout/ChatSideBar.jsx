@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { selectRoom, addRoom, fetchChatHistory } from "@/modules/chat/slices/chatSlice";
-import { chatRoomCreateApi } from "@/modules/chat/chatApi"; // 💡 API 호출 함수 추가
+import { selectRoom, addRoom, fetchChatHistory, deleteChatRoom, updateChatRoomTitle } from "@/modules/chat/slices/chatSlice";
+import { chatRoomCreateApi } from "@/modules/chat/chatApi";
 import UserProfile from "../ui/UserProfile";
 import DevServerInput from "../ui/DevServerInput";
 import LogoutBtn from "../ui/LogoutBtn";
@@ -13,8 +13,9 @@ function SideBar({ isOpen, toggleSidebar, isLoggedIn, user }) {
   const selectedRoomId = useSelector((state) => state.chat.selectedRoomId);
 
   const handleRoomClick = (roomId) => {
+    console.log("Room", roomId);
     dispatch(selectRoom(roomId));
-    dispatch(fetchChatHistory(roomId)); // ✅ 클릭 시 채팅 내역 요청
+    dispatch(fetchChatHistory(roomId));
   };
 
   const handleAddRoom = async () => {
@@ -23,12 +24,24 @@ function SideBar({ isOpen, toggleSidebar, isLoggedIn, user }) {
 
     try {
       const res = await chatRoomCreateApi(inputTitle.trim());
-
       const roomTitle = res.title?.trim() || "서버에서 안보냄";
       dispatch(addRoom({ id: res.id, title: roomTitle }));
     } catch (err) {
       alert("채팅방 생성에 실패했습니다.");
       console.error(err);
+    }
+  };
+
+  const handleDeleteRoom = (roomId) => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      dispatch(deleteChatRoom(roomId));
+    }
+  };
+
+  const handleEditRoom = (roomId, currentTitle) => {
+    const newTitle = prompt("새 채팅방 이름을 입력하세요", currentTitle);
+    if (newTitle?.trim()) {
+      dispatch(updateChatRoomTitle({ sessionId: roomId, newTitle: newTitle.trim() }));
     }
   };
 
@@ -64,13 +77,30 @@ function SideBar({ isOpen, toggleSidebar, isLoggedIn, user }) {
             <ul className={styles.roomList}>
               {rooms.map((room) => (
                 <li
-                  key={room.id} // ✅ 고유 key 추가
+                  key={room.id}
                   className={`${styles.roomItem} ${
                     selectedRoomId === room.id ? styles.active : ""
                   }`}
-                  onClick={() => handleRoomClick(room.id)}
                 >
-                  {room.title}
+                  <span onClick={() => handleRoomClick(room.id)}>{room.title}</span>
+                  <button
+                    className={styles.editButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleEditRoom(room.id, room.title);
+                    }}
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteRoom(room.id);
+                    }}
+                  >
+                    🗑️
+                  </button>
                 </li>
               ))}
             </ul>

@@ -5,8 +5,8 @@ import styles from "./LoginForm.module.css";
 
 const LoginForm = () => {
   const {
-    user_id,
-    setUserId,
+    email,
+    setEmail,
     user_password,
     setPassword,
     errorMessage,
@@ -15,7 +15,7 @@ const LoginForm = () => {
   } = useLogin();
 
   const { idRef, passwordRef, localError, handleCustomLogin, handleKeyDown } =
-    useLoginHandler(user_id, user_password, handleLogin);
+    useLoginHandler(email, user_password, handleLogin);
 
   return (
     <form className={styles["login-form"]} onSubmit={handleCustomLogin}>
@@ -26,17 +26,17 @@ const LoginForm = () => {
         <div className="login-group">
           <div className={styles["inp-group"]}>
             <input
-              type="text"
+              type="email"
               className={styles["inp-fd"]}
-              id="username"
+              id="useremail"
               placeholder=""
-              value={user_id}
-              onChange={(e) => setUserId(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               onKeyDown={handleKeyDown}
               ref={idRef}
             />
-            <label htmlFor="username" className={styles["inp-lb"]}>
-              아이디
+            <label htmlFor="useremail" className={styles["inp-lb"]}>
+              이메일
             </label>
           </div>
 

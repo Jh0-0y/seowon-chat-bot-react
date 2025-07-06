@@ -14,14 +14,14 @@ export const useLogin = () => {
   const navigate = useNavigate();
   const { isLoggedIn, error } = useSelector((state) => state.login);
 
-  const [user_id, setUserId] = useState("");
+  const [email, setEmail] = useState("");
   const [user_password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    dispatch(login({ user_id, user_password })).then((res) => {
+    dispatch(login({ email, user_password })).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
         // ✅ 토큰이 반영된 다음에 fetchRoomList 실행
         setTimeout(() => {
@@ -46,8 +46,8 @@ export const useLogin = () => {
   }, [isLoggedIn, error, navigate]);
 
   return {
-    user_id,
-    setUserId,
+    email,
+    setEmail,
     user_password,
     setPassword,
     errorMessage: error,
@@ -57,17 +57,17 @@ export const useLogin = () => {
 };
 
 // 로그인 폼 커스텀 훅
-export const useLoginHandler = (user_id, user_password, handleLogin) => {
+export const useLoginHandler = (email, user_password, handleLogin) => {
   const idRef = useRef(null);
   const passwordRef = useRef(null);
   const [localError, setLocalError] = useState("");
 
   const handleCustomLogin = (e) => {
     e.preventDefault();
-    const result = validateLogin({ user_id, user_password });
+    const result = validateLogin({ email, user_password });
 
     if (!result.ok) {
-      if (result.focus === "user_id") focusInput(idRef);
+      if (result.focus === "email") focusInput(idRef);
       if (result.focus === "user_password") focusInput(passwordRef);
 
       setLocalError(result.message);
@@ -98,11 +98,9 @@ export const useRegister = (onSuccess) => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    user_id: "",
+    email: "",
     user_password: "",
     user_name: "",
-    email: "",
-    phone_number: "",
   });
   const [passwordCheck, setPasswordCheck] = useState("");
   const [error, setError] = useState("");

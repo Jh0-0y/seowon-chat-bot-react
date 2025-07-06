@@ -22,6 +22,18 @@ export const chatRoomListApi = async () => {
 };
 
 export const chatHistoryApi = async (sessionId) => {
-  const response = await axios.post("/session/read", { session_id: sessionId });
+  const response = await axios.get(`/session/${sessionId}`);
   return response.data; // [{ user_message, bot_response, created_at }]
+};
+
+export const chatRoomDeleteApi = async (sessionId) => {
+  const response = await axios.delete(`/session/${sessionId}`);
+  return response.data;
+};
+
+export const chatRoomUpdateApi = async (sessionId, newTitle) => {
+  const response = await axios.put(`/session/${sessionId}`, {
+    update_title: newTitle,
+  });
+  return response.data;
 };
